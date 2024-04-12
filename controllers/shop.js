@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-const Cart = require("../models/cart");
 
 exports.getProducts = async (req, res, next) => {
   console.log("This is all products", await Product.fetchAll());

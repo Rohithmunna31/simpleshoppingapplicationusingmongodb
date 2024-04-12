@@ -1,3 +1,4 @@
+const User = require("../models/User");
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
@@ -13,8 +14,9 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
+  const UserId = req.body.UserId;
 
-  const product = new Product(title, price, imageUrl, description);
+  const product = new Product(title, price, imageUrl, description, UserId);
 
   product
     .save()
@@ -81,8 +83,15 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
-// exports.postDeleteProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   Product.deleteById(prodId);
-//   res.redirect("/admin/products");
-// };
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+
+  Product.deleteById(prodId)
+    .then(() => {
+      console.log("Deleted product");
+      res.redirect("/admin/products");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
